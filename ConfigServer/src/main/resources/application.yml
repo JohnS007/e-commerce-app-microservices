@@ -1,0 +1,20 @@
+spring:
+    application:
+        name: ConfigServer
+    cloud:
+        config:
+            server:
+                git:
+                    uri: https://github.com/JohnS007/ecommerce-app-config.git
+                    clone-on-start: true
+server:
+    port: 9296
+
+eureka:
+    instance:
+        prefer-ip-address: true
+    client:
+        fetch-registry: true
+        register-with-eureka: true
+        service-url:
+            defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}

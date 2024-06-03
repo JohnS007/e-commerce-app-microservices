@@ -1,0 +1,61 @@
+spring:
+    application:
+        name: API-GATEWAY
+    config:
+        import: configserver:http://${CONFIG_SERVER_URL:localhost}:9296
+    cloud:
+        gateway:
+            routes:
+                - id: OrderService
+                  uri: lb://OrderService
+                  predicates:
+                      - Path=/order/**
+                  filters:
+                    - name: CircuitBreaker
+                      args:
+                        name: OrderService
+                        fallbackuri: forward:/orderServiceFallBack
+                    - name: RequestRateLimiter
+                      args:
+                        redis-rate-limiter.replenishRate: 1
+                        redis-rate-limiter.burstCapacity: 1
+                - id: ProductService
+                  uri: lb://ProductService
+                  predicates:
+                      - Path=/product/**
+                  filters:
+                    - name: CircuitBreaker
+                      args:
+                        name: OrderService
+                        fallbackuri: forward:/productServiceFallBack
+                    - name: RequestRateLimiter
+                      args:
+                        redis-rate-limiter.replenishRate: 1
+                        redis-rate-limiter.burstCapacity: 1
+                - id: PaymentService
+                  uri: lb://PaymentService
+                  predicates:
+                      - Path=/payment/**
+                  filters:
+                    - name: CircuitBreaker
+                      args:
+                        name: OrderService
+                        fallbackuri: forward:/paymentServiceFallBack
+                    - name: RequestRateLimiter
+                      args:
+                        redis-rate-limiter.replenishRate: 1
+                        redis-rate-limiter.burstCapacity: 1
+
+okta:
+  oauth2:
+    issuer: https://dev-26155147.okta.com/oauth2/default
+    audience: api://default
+    client-id: 0oahcd8t8guTjjgDD5d7
+    client-secret: xN7Fl_Xz8aBCwEWwkJyCuVHgXGiIvnzTbrODoAqvEUmdZtDqzQjfNoQbtkl_tOMK
+    scopes: openid, profile, email, offline_access
+
+
+server:
+    port: 9090
+
+
