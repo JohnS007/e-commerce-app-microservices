@@ -48,11 +48,7 @@ resilience4j:
                 sliding-window-size: 10
                 sliding-window-type: COUNT_BASED
 
-#eureka:
-#    instance:
-#        prefer-ip-address: true
-#    client:
-#        fetch-registry: true
-#        register-with-eureka: true
-#        service-url:
-#            defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+
+microservices:
+    product: http://product-service-svc/product/
+    payment: http://payment-service-svc/payment/

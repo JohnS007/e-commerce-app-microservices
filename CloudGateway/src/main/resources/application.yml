@@ -10,7 +10,7 @@ spring:
         gateway:
             routes:
                 - id: OrderService
-                  uri: lb://OrderService
+                  uri: http://order-service-svc
                   predicates:
                       - Path=/order/**
                   filters:
@@ -23,7 +23,7 @@ spring:
                         redis-rate-limiter.replenishRate: 1
                         redis-rate-limiter.burstCapacity: 1
                 - id: ProductService
-                  uri: lb://ProductService
+                  uri: http://product-service-svc
                   predicates:
                       - Path=/product/**
                   filters:
@@ -36,7 +36,7 @@ spring:
                         redis-rate-limiter.replenishRate: 1
                         redis-rate-limiter.burstCapacity: 1
                 - id: PaymentService
-                  uri: lb://PaymentService
+                  uri: http://payment-service-svc
                   predicates:
                       - Path=/payment/**
                   filters:
